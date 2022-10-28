@@ -1,3 +1,9 @@
+ /*********************************************************************************************
+ *   author: sanket lokhande
+ *   email:  slokhande@nevada.unr.edu
+ *   Description: This code reads a text file containing doubles and puts them into 2D vector
+ **********************************************************************************************/
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -40,18 +46,16 @@ double** reformatData(vector<double> data)
 
 int main()
 {
+    string fname = "playback.txt";
+    auto data = ReadInDoubles(fname);
+    double myPData[data.size() / NUM_MOTORS][NUM_MOTORS];
+    double** myData = reformatData(data);
+    memcpy(&myPData[0][0], &myData[0][0], sizeof(myPData));
 
-   string fname = "playback.txt";
-   auto data = ReadInDoubles(fname);
-   double myPData[data.size() / NUM_MOTORS][NUM_MOTORS];
-   double** myData = reformatData(data);
-   memcpy(&myPData[0][0], &myData[0][0], sizeof(myPData));
-   
     for(int i=0; i<(data.size()/NUM_MOTORS) ; i++)
     {
         cout << myPData[i][3] << endl;
     }
-
 
     return 0;
 }
