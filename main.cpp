@@ -33,15 +33,11 @@ double ** reformatData(vector<double> &data)
     int dataCol = NUM_COLUMNS;
     int dataRows = data.size() / dataCol;
     double **array2D = new double*[dataRows];
-    array2D = new double*[dataRows];
-
     for(int i=0; i<dataRows; i++)
     {
         array2D[i] = new double[dataCol];
     }
-    double myTempMatrix[dataRows][dataCol];
     memcpy(&**array2D, &data[0], sizeof(double)*data.size());
-    memcpy(&myTempMatrix[0][0], &**array2D, sizeof(double )*data.size());
     return array2D;
 }
 
