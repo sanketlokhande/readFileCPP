@@ -15,61 +15,53 @@ using namespace std;
 
 
 //// Read file and return the data in a vector
-vector <double> ReadInDoubles( const string& filename )
+void ReadInDoubles( const string& filename , vector <double> &result)
 {
-    vector <double> result;
+
     double          d;
     ifstream        inf( filename.c_str() );
     while (inf >> d)
     {
         result.push_back( d );
     }
-    return result;
+    inf.close();
 }
 
 ////Make a return type of 2d array
-double** reformatData(vector<double> data)
+double ** reformatData(vector<double> &data)
 {
     int dataCol = NUM_COLUMNS;
     int dataRows = data.size() / dataCol;
-    double** sendData ; //[dataRows][dataCol];
-    sendData = new double*[dataCol];
-    int count = 0;
-    for( int j =0; j<dataCol; j++)
+    double **array2D = new double*[dataRows];
+    array2D = new double*[dataRows];
+
+    for(int i=0; i<dataRows; i++)
     {
-        sendData[j] = new double[dataRows];
-        for (int i=0; i<dataRows ; i++)
-        {
-            sendData[j][i] = data[count];
-            count++;
-        }
+        array2D[i] = new double[dataCol];
     }
-    cout << "Read the datafile" << endl;
-    return sendData;
+    double myTempMatrix[dataRows][dataCol];
+    memcpy(&**array2D, &data[0], sizeof(double)*data.size());
+    memcpy(&myTempMatrix[0][0], &**array2D, sizeof(double )*data.size());
+    return array2D;
 }
+
 
 int main()
 {
-    string fname = "playback.txt";
-    auto data = ReadInDoubles(fname);
-    double myPData[data.size() / NUM_COLUMNS][NUM_COLUMNS];
-//    double** myData = reformatData(data);
- //   memcpy(&myPData[0][0], &myData[0][0], sizeof(myPData));
+    string fname = "../logs/playback.txt";
 
-//// Simple route
-    int count = 0;
-    for (int i=0 ; i < (data.size() / NUM_COLUMNS); i++)
-    {
-        for(int j=0 ; j< (NUM_COLUMNS) ; j++)
-        {
-            myPData[i][j] = data[count++];
-        }
-    }
+    std::vector<double> data;
+    ReadInDoubles(fname, data);
 
-    for(int i=0; i<(data.size()/NUM_COLUMNS) ; i++)
-    {
-        cout << myPData[i][3] << endl;
-    }
+    double ** myVector= reformatData(data);
+
+    data.clear();
+
+    double myMatrix[250][12];
+
+    memcpy(&myMatrix[0][0], &**myVector, sizeof(double)*3000);
+
 
     return 0;
 }
+
