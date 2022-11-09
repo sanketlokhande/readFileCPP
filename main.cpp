@@ -58,6 +58,11 @@ int main()
     memcpy(&myMatrix[0][0], &**myVector, sizeof(double)*3000);
 
 
+    for(int i=0 ; i<12 ; i++)
+    {
+        std::cout << "Ending 12 elements " << myMatrix[249][i] << std::endl;
+    }
+
     return 0;
 }
 
